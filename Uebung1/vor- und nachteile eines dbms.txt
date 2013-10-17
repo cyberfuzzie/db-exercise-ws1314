@@ -1,0 +1,3 @@
+Vorteile:
+- paralleler zugriff auf datensätze möglich
+- zugriffsbeschränkungen können umgesetzt werden (z.B. schreibschutz, views)

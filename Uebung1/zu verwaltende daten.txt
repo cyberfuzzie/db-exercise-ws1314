@@ -1,0 +1,5 @@
+- Liste der Parteien
+- Aufteilung der Erst- und Zweitstimmen auf Parteien, getrennt nach Wahlkreisen
+- Zuteilung der Wahlkreise zu den Bundesländern
+- Anzahl deutscher Staatsbürger, getrennt nach Bundesländern
+- Jahreszahlen für alle Daten
