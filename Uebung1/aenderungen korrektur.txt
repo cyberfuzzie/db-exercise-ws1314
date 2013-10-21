@@ -1,0 +1,4 @@
+einzelstimmen in datenbank (große tabelle mit vielen einträgen!)
+keine wahlkreisänderungen notwendig, darf aber implementiert werden
+sonderfälle (parteiwechsel, etc.) freiwillig
+empfohlene redundanz auf wahlkreisebene: aggregation der stimmen
