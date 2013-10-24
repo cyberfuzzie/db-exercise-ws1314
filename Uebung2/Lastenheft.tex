@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+
+
+\begin{document}
+
+\section{Schnittstellen}
+\paragraph{Web-Frontend}
+Ein Web-Frontend soll die verschiedenen zur Verfügung stehenden Auswertungen und Statistiken (siehe \nameref{par:auswertung} und \nameref{par:statistiken}) auflisten und anzeigen.
+\paragraph{API}
+Sowohl die Auswertungen als auch eine Abgabe von Stimmen müssen über eine API zugänglich sein, so dass weitere Benutzeroberflächen entsprechende Funktionen bereitstellen können (z.B. elektronischer Stimmzettel).
+\section{Funktionale Anforderungen}
+\paragraph{Auswertung der Stimmen}
+\label{par:auswertung}
+Über die eingetragenen Stimmen soll die Sitzverteilung im Deutschen Bundestag, über das Sainte-Laguë/Schepers Verfahren, berechnet werden.
+\paragraph{Statistiken}
+\label{par:statistiken}
+Es sollen Statistiken über die Stimmverteilung nach Bundesländern, Wahlkreisen, Parteien berechnet werden.
+\paragraph{Hochrechnungen}
+Es soll zudem möglich sein, bereits während der Wahlen erste Hochrechnungen für das Endergebnis zu ermitteln.
+\section{Nicht-Funktionale Anforderungen}
+\paragraph{Korrektheit}
+Alle Berechnungen sollen ein Korrektes Ergebnis liefern.
+\paragraph{Performanz}
+Da im Üblichen viele einzelne Stimmen/Stimmzettel verwaltet werden müssen, ist es wichtig, dass das System alle Berechnungen auf einer großen Datenmenge effizient durchführen kann.
+\paragraph{Erweiterbarkeit}
+Im Design ist darauf zu achten, dass später Stimmen abgegeben werden können, die dann mit in das System aufgenommen werden sollen.
+\section{Abnahmekriterien}
+\begin{itemize}
+\item Alle Funktionalen Anforderungen müssen implementiert und getestet sein.
+\item Alle Nicht-Funktionalen Anforderungen müssen umgesetzt sein.
+\end{itemize}
+\end{document}
