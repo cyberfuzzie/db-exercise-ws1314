@@ -15,12 +15,16 @@ Sowohl die Auswertungen als auch eine Abgabe von Stimmen müssen über eine API 
 \section{Funktionale Anforderungen}
 \paragraph{Auswertung der Stimmen}
 \label{par:auswertung}
-Über die eingetragenen Stimmen soll die Sitzverteilung im Deutschen Bundestag, über das Sainte-Laguë/Schepers Verfahren, berechnet werden.
+Über die eingetragenen Stimmen soll die Sitzverteilung im Deutschen Bundestag über das Sainte-Laguë/Schepers Verfahren berechnet werden.
 \paragraph{Statistiken}
 \label{par:statistiken}
 Es sollen Statistiken über die Stimmverteilung nach Bundesländern, Wahlkreisen, Parteien berechnet werden.
+\paragraph{Weitere Analysen}
+Liste mit Überhangmandaten, Kandidatenübersicht, Länderübersicht.
 \paragraph{Hochrechnungen}
 Es soll zudem möglich sein, bereits während der Wahlen erste Hochrechnungen für das Endergebnis zu ermitteln.
+\paragraph{Dokumentation}
+Dokumentation der API, sowie Inline-Kommentare.
 \section{Nicht-Funktionale Anforderungen}
 \paragraph{Korrektheit}
 Alle Berechnungen sollen ein Korrektes Ergebnis liefern.
@@ -28,6 +32,12 @@ Alle Berechnungen sollen ein Korrektes Ergebnis liefern.
 Da im Üblichen viele einzelne Stimmen/Stimmzettel verwaltet werden müssen, ist es wichtig, dass das System alle Berechnungen auf einer großen Datenmenge effizient durchführen kann.
 \paragraph{Erweiterbarkeit}
 Im Design ist darauf zu achten, dass später Stimmen abgegeben werden können, die dann mit in das System aufgenommen werden sollen.
+\paragraph{Datenschutz}
+Geltende Datenschutzrichtlinien müssen eingehalten werden (Wahlgeheimnis!).
+\paragraph{Sicherheit}
+Schutz vor Manipulation, etc.
+\paragraph{Robustheit}
+Abfangen von inkorrekten Benutzereingaben.
 \section{Abnahmekriterien}
 \begin{itemize}
 \item Alle Funktionalen Anforderungen müssen implementiert und getestet sein.
