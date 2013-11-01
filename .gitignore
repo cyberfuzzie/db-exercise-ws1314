@@ -1,0 +1,7 @@
+# No hidden files
+.*
+
+# ignore intermediate LaTeX files
+*.aux
+*.log
+*.out
