@@ -1,4 +1,5 @@
 \documentclass[11pt,a4paper]{scrartcl}
+\usepackage[bottom=3cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{hyperref}
 \usepackage[T1]{fontenc}
@@ -23,6 +24,9 @@ Es sollen Statistiken über die Stimmverteilung nach Bundesländern, Wahlkreisen
 Liste mit Überhangmandaten, Kandidatenübersicht, Länderübersicht.
 \paragraph{Hochrechnungen}
 Es soll zudem möglich sein, bereits während der Wahlen erste Hochrechnungen für das Endergebnis zu ermitteln.
+\paragraph{Batch-Loading von Stimmen}
+Aus den Ergebnissen der Wahl müssen Einzelstimmen in die Datenbank geladen
+werden können.
 \paragraph{Dokumentation}
 Dokumentation der API, sowie Inline-Kommentare.
 \section{Nicht-Funktionale Anforderungen}
