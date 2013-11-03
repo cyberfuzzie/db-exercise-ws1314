@@ -91,9 +91,14 @@ $ $\newline
     \caption{Zusätzliche Statistiken, z.b. Liste von Überhangmandaten, etc.}
     \label{fig:gui-zusatzstatistiken}
 \end{figure}
-
-$ $\newpage
-$ $\newpage
+\subsection{Hinweise zur Zugangsberechtigung}
+Für das Web-Frontend müssen keine Zugangsberechtigungen beachtet werden, da
+dieses nur eine Auswertung der Daten zur Verfügung stellt, ein Schreibzugriff
+auf die Daten jedoch nicht möglich sein soll.\\
+Ein Zugriff auf die Datenbank sowie jegliche andere Möglichkeit, die
+gespeicherten Daten zu ändern, darf nicht öffentlich zugänglich sein, sondern
+bedarf einer Zugangsberechtigung.
+\newpage
 \section{Datenmodell}
 \begin{figure}[h!]
     \begin{center}
@@ -102,4 +107,11 @@ $ $\newpage
     \caption{Datenmodell}
     \label{fig:datenmodell}
 \end{figure}
+\section{Glossar}
+\begin{itemize}
+    \item API: Festgelegte Programmier-Schnittstelle, welche sich auch bei
+        internen Änderungen an der Implementierung der Bibliothek nicht ändert.
+    \item Batch-Loading: Einfügen von mehreren Stimmen auf ein Mal in die
+        Datenbank, möglicherweise basierend auf aggregierten Daten
+\end{itemize}
 \end{document}
