@@ -1,0 +1,38 @@
+In einem ersten Schritt werden die zu verteilenden Sitze auf die Bundesländer
+verteilt. Dabei kommt das Höchstzahlverfahren zum Einsatz, da sich damit die
+Berechnung ohne Iteration durchführen lässt. Das Ergebnis steht in der View
+BundeslandSitze bereit.
+
+Für die weitere Berechnung werden zusätzliche Views definiert, die alle
+Direktmandate, den jeweils auf die Parteien entfallenden Anteil der Zweitstimmen
+(ZweitstimmenProzent) und darauf aufbauend alle Parteien, deren Zweitstimmen für
+die Sitzverteilung im Bundestag relevant sind (5-Prozent-Hürde oder 3
+Direktmandate), ermittelt und in der View BundestagsParteien gespeichert.
+
+Wiederum nach dem Höchstzahlverfahren werden dann die Listenplätze in den
+Bundesländern entsprechend den Zweitstimmen auf die Parteien verteilt. Daraus
+und aus den Direktmandaten ergibt sich dann die Mindestanzahl der Sitze, die
+eine Partei in einem Bundesland erhalten muss.
+
+Die endgültige Zuteilung der Sitze im Bundestag an die Parteien (View
+SitzeParteienBundesweit) wird dann in einem weiteren Höchstzahlverfahren
+berechnet, wobei die Anzahl der zu verteilenden Sitze so gewählt wird, dass jede
+Partei ihre zuvor berechnete Minimalanzahl an Sitzen erhält.
+
+Die so berechneten Sitze werden dann innerhalb der Parteien im Verhältnis der
+Zweitstimmen auf die Länder aufgeteilt (SitzeParteienLaender), dabei werden
+eventuelle Überhangmandate berücksichtigt, indem im Höchstzahlverfahren für jede
+Anzahl an vergebenen Sitzen zusätzlich berechnet wird, wie viele zusätzliche
+Sitze nötig wären, um alle gewählten Direktkandidaten zu berücksichtigen. Die
+tatsächliche nach Zweitstimmen verteilte Sitzanzahl wird dann maximal so
+gewählt, dass sich mit den noch zusätzlich notwendigen Sitze genau die der
+Partei zustehende Sitzanzahl ergibt.
+
+Danach wird eine Liste der Kandidaten aufgestellt, die über die Landeslisten in
+den Bundestag einziehen, dafür werden zunächst alle direkt gewählten Kandidaten
+von den Listen entfernt, außerdem werden von den in einem Bundesland erhaltenen
+Sitzen die Anzahl der gewählten Direktkandidaten abgezogen. Die noch
+verbleibenden Sitze werden dann auf die Landeslisten verteilt.
+
+Abschließend wird eine Liste aller Mitglieder des Bundestags erzeugt, indem die
+direkt gewählten sowie die gewählten Listenkandidaten kombiniert werden.
