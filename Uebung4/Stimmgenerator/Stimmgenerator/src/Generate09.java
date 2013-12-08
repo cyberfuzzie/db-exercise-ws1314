@@ -20,7 +20,7 @@ public class Generate09 {
 		Connection con = null;
 		try{
 			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:9912/wis";
+			String url = "jdbc:postgresql://localhost:5512/wis";
 			con = DriverManager.getConnection(url,"wis","wis");
 			generateStimmsummen(con);
 		}

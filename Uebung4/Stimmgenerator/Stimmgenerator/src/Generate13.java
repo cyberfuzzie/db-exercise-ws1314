@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Vector;
 
 
-public class Genertate13 {
+public class Generate13 {
 	
 	public static void main(String[] args){
 		Connection con = null;
 		try{
 			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:9912/wis";
+			String url = "jdbc:postgresql://localhost:5512/wis";
 			con = DriverManager.getConnection(url,"wis","wis");
 			generateStimmsummen(con);
 		}
