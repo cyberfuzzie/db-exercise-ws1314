@@ -17,7 +17,8 @@ create or replace view DirektMandate as (
     left join summeerststimmen s2
       on s1.wahlkreisid = s2.wahlkreisid
       and s1.anzahlstimmen < s2.anzahlstimmen
-  where s2.anzahlstimmen is null
+      join wahlkreis wk on s1.wahlkreisid = wk.wahlkreisid
+  where s2.anzahlstimmen is null and wk.jahr = 2013
 );
 
 create or replace view ZweitstimmenProzent as (
@@ -196,7 +197,7 @@ create or replace view ListenMandate as (
     ),
     moeglichelistenkandidaten as (
       select parteiid,bundeslandid,kandidatid,nummer from listenplatz
-        where kandidatid not in (select kandidatid from direktmandate)
+        where kandidatid not in (select kandidatid from direktmandate) and jahr = 2013
     ),
     listenkandidatennummeriert as (
       select als.parteiid,als.bundeslandid,als.listensitze,mlk.kandidatid,mlk.nummer,row_number() over (partition by als.parteiid,als.bundeslandid order by nummer) as row from anzahllistensitze als
