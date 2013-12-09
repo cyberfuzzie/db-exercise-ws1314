@@ -22,7 +22,7 @@ public class Generate09 {
 			Class.forName("org.postgresql.Driver");
 			String url = "jdbc:postgresql://localhost:5512/wis";
 			con = DriverManager.getConnection(url,"wis","wis");
-			generateStimmsummen(con);
+			generateListenplaetze(con);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -38,6 +38,37 @@ public class Generate09 {
 			}
 		}
 	}
+        
+        public static void generateListenplaetze(Connection con) throws Exception{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tamel/Workspace/DBProjekt/Uebung4/Daten/wahlbewerber2009_mod.csv"), "UTF-8"));
+            String line = reader.readLine();
+            PrintWriter error = new PrintWriter("/home/tamel/error");
+            String sql = "insert into listenplatz(kandidatid,parteiid,bundeslandid,nummer,jahr) " + 
+                        "select k.kandidatid, p.parteiid, b.bundeslandid, ?, 2009 " +
+                        "from kandidat k, partei p, bundesland b "  +
+                        "where k.parteiid = p.parteiid and k.name = ? and p.name = ? and b.name = ?";
+            PreparedStatement s = con.prepareStatement(sql);
+            int count = 0;
+            while((line = reader.readLine()) != null){
+                String[] arr = line.split("\\t");
+                if(arr.length > 5){
+                    String partei = arr[3].trim();
+                    String name = arr[0].trim() + " " + arr[1].trim();
+                    name = name.trim();
+                    String bundesland = arr[5].trim();
+                    int nummer = parse(arr[6].trim());
+                    s.setInt(1, nummer);
+                    s.setString(2, name);
+                    s.setString(3, partei);
+                    s.setString(4, bundesland);
+                    System.out.println("Name: " + name + " Partei: " + partei + " Bundesland: " + bundesland);
+                    count += s.executeUpdate();
+                }
+            }
+            System.out.println("Anzahl: " + count);
+            error.close();
+            reader.close();
+        }
 	
 	public static void generateStimmsummen(Connection con) throws Exception{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tamel/Workspace/DBProjekt/Uebung4/Daten/kerg2009.csv"), "ISO-8859-15"));

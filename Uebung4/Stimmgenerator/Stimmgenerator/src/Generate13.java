@@ -128,8 +128,8 @@ public class Generate13 {
 	public static void generateListenplätze(Connection con) throws Exception{
 		BufferedReader Kanreader = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tamel/Workspace/DBProjekt/Uebung4/Daten/Tab23_Wahlbewerber_a.csv"), "ISO-8859-15"));
 		String line = Kanreader.readLine();
-		String sql = "insert into listenplatz(kandidatid,parteiid,bundeslandid,nummer) " + 
-					"select k.kandidatid, p.parteiid, b.bundeslandid, ? " +
+		String sql = "insert into listenplatz(kandidatid,parteiid,bundeslandid,nummer,jahr) " + 
+					"select k.kandidatid, p.parteiid, b.bundeslandid, ?, 2013 " +
 					"from kandidat k, partei p, bundesland b " + 
 					"where k.parteiid = p.parteiid and b.name = ? and k.name = ? and p.name = ?";
 		PreparedStatement s = con.prepareStatement(sql);
