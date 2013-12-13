@@ -22,7 +22,7 @@ public class Generate09 {
 			Class.forName("org.postgresql.Driver");
 			String url = "jdbc:postgresql://localhost:5512/wis";
 			con = DriverManager.getConnection(url,"wis","wis");
-			generateListenplaetze(con);
+			updateWahlkreis(con);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -38,6 +38,25 @@ public class Generate09 {
 			}
 		}
 	}
+        
+        public static void updateWahlkreis(Connection con) throws Exception{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tamel/Workspace/DBProjekt/Uebung4/Daten/kerg2009.csv"), "ISO-8859-15"));
+            String line = reader.readLine();
+            String sql = "update wahlkreis set wahlberechtigte = ? where wahlkreisnummer = ? and jahr = 2009";
+            PreparedStatement s = con.prepareStatement(sql);
+            int count = 0;
+            while((line=reader.readLine())!=null){
+                String[] arr = line.split("\\t");
+                int number = parse(arr[3]);
+                int wkNummer = parse(arr[0]);
+                s.setInt(1, number);
+                s.setInt(2, wkNummer);
+                count += s.executeUpdate();
+                System.out.println(count);
+            }
+            System.out.println("fertig");
+            reader.close();
+        }
         
         public static void generateListenplaetze(Connection con) throws Exception{
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tamel/Workspace/DBProjekt/Uebung4/Daten/wahlbewerber2009_mod.csv"), "UTF-8"));
