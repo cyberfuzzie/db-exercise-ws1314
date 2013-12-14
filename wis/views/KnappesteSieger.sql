@@ -29,3 +29,26 @@ create or replace view KnappesteSieger as(
           from ersterMitVorsprung emv) x
     where x.number <= 10
 );
+
+create or replace view KnappesteVerloreneWahlkreise as(
+    with siegerParteien as(
+        select distinct parteiid
+        from mindestanzahlsitze
+    ),
+    maxStimmenWahlkreis as(
+        select wahlkreisid, max(anzahlstimmen) max
+        from summeerststimmen
+        group by wahlkreisid
+    ),
+    differenzZuSieger as(
+        select k.parteiid, se.wahlkreisid, wk.jahr, msw.max - se.anzahlstimmen Differenz
+        from summeerststimmen se join maxStimmenWahlkreis msw on se.wahlkreisid = msw.wahlkreisid
+                                 join kandidat k on se.kandidatid = k.kandidatid
+                                 join wahlkreis wk on se.wahlkreisid = wk.wahlkreisid
+        where k.parteiid not in (select * from siegerParteien)
+    )
+    select x.parteiid, x.wahlkreisid, x.differenz
+    from (select d.*, row_number() over (partition by d.parteiid, d.jahr order by d.Differenz) as number
+          from differenzZuSieger d) x
+    where x.number <= 5
+);
