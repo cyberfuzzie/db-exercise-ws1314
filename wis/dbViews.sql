@@ -103,10 +103,15 @@ create or replace view MindestanzahlSitze as (
 );
 
 create or replace view SitzeParteienBundesweit as (
-  with
+    with wahlkreis2013 as (
+      select wahlkreisid
+        from wahlkreis
+        where jahr = 2013
+    ),
     bundeszweitstimmen as (
       select parteiid,sum(anzahlstimmen) stimmen from summezweitstimmen
       where parteiid in (select * from bundestagsparteien)
+        and wahlkreisid in (select * from wahlkreis2013)
       group by parteiid
     ),
     mindestsitzebund as (
