@@ -24,10 +24,17 @@ create or replace view KnappesteSieger as(
                                         and se.wahlkreisid = f.wahlkreisid
                                   join kandidat k on se.kandidatid = k.kandidatid
     )
-    select wahlkreisid,parteiid,kandidatid
+    select wahlkreisid,parteiid,kandidatid, vorsprung
     from (select row_number() over (partition by parteiid order by vorsprung) as number, emv.*
           from ersterMitVorsprung emv) x
     where x.number <= 10
+);
+
+create or replace view Output_KnappesteSieger as(
+    select p.name Partei, k.name Kandidat, wk.wahlkreisnummer, wk.jahr, ks.vorsprung,wk.name Wahlkreis
+    from KnappesteSieger ks join wahlkreis wk on ks.wahlkreisid = wk.wahlkreisid
+                            join partei p on ks.parteiid = p.parteiid
+                            join kandidat k on ks.kandidatid = k.kandidatid
 );
 
 create or replace view KnappesteVerloreneWahlkreise as(
@@ -45,10 +52,16 @@ create or replace view KnappesteVerloreneWahlkreise as(
         from summeerststimmen se join maxStimmenWahlkreis msw on se.wahlkreisid = msw.wahlkreisid
                                  join kandidat k on se.kandidatid = k.kandidatid
                                  join wahlkreis wk on se.wahlkreisid = wk.wahlkreisid
-        where k.parteiid not in (select * from siegerParteien)
+        where k.parteiid not in (select * from siegerParteien) and wk.jahr = 2013
     )
     select x.parteiid, x.wahlkreisid, x.differenz
     from (select d.*, row_number() over (partition by d.parteiid, d.jahr order by d.Differenz) as number
           from differenzZuSieger d) x
-    where x.number <= 5
+    where x.number <= 5 and x.jahr = 2013
+);
+
+create or replace view Output_KnappesteVerloreneWahlkreise as(
+    select p."name" partei, wk.wahlkreisnummer, kvw.differenz,wk.name Wahlkreis
+    from knappesteverlorenewahlkreise kvw join partei p on kvw.parteiid = p.parteiid
+                                          join wahlkreis wk on kvw.wahlkreisid = wk.wahlkreisid
 );

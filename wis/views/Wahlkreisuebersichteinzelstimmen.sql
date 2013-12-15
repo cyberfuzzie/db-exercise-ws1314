@@ -14,6 +14,11 @@ create or replace view WahlbeteiligungEinzelstimmen as(
     from wahlkreis wk join erststimmenProWahlkreis epw on wk.wahlkreisid = epw.wahlkreisid
                       join zweitstimmenProWahlkreis zpw on wk.wahlkreisid = zpw.wahlkreisid
 );
+
+create or replace view Output_WahlbeteiligungEinzelstimmen as(
+    select wk.wahlkreisnummer, wk.name Wahlkreis, wk.jahr, wahlbeteiligung
+    from WahlbeteiligungEinzelstimmen wb join wahlkreis wk on wb.wahlkreisid = wk.wahlkreisid
+);
 --2
 create or replace view GewaehlterDirektKandidatEinzelstimmen as(
     with tmpDirektMandate as(
@@ -40,6 +45,12 @@ create or replace view ProzentualeAbsoluteStimmenParteiEinzelstimmen as(
     from summezweitstimmenlive sz join summeprowahlkreis spw on sz.wahlkreisid = spw.wahlkreisid
     group by sz.wahlkreisid,sz.parteiid,spw.summe
 );
+
+create or replace view Output_ProzentualeAbsoluteStimmenParteiEinzelstimmen as(
+    select wk.wahlkreisnummer, wk.name Wahlkreis, p.name Partei, pap.summe, pap.prozent
+    from ProzentualeAbsoluteStimmenParteiEinzelstimmen pap join wahlkreis wk on pap.wahlkreisid = wk.wahlkreisid
+                                                           join partei p on pap.parteiid = p.parteiid
+);
 --4
 create or replace view EntwicklungStimmenEinzelstimmen as(
     with wk13 as (
@@ -56,4 +67,10 @@ create or replace view EntwicklungStimmenEinzelstimmen as(
     from prozentualeabsolutestimmenparteieinzelstimmen pap13 
         left join WahlkreiseMapped wkm on pap13.wahlkreisid = wkm.wahlkreisid13
         right join prozentualeabsolutestimmenparteieinzelstimmen pap09 on pap09.wahlkreisid = wkm.wahlkreisid09 and pap13.parteiid = pap09.parteiid
+);
+
+create or replace view Output_EntwicklungStimmenEinzelstimmen as(
+    select wk.wahlkreisnummer, wk.name Wahlkreis, p.name Partei, summe13, summe09, differenz
+    from EntwicklungStimmenEinzelstimmen es join wahlkreis wk on es.wahlkreisid = wk.wahlkreisid
+                               join partei p on es.parteiid = p.parteiid
 );

@@ -16,3 +16,10 @@ create or replace view Wahlkreissieger as(
                              join maxwkzweitstimmen mwz on mwz.wahlkreisid = se.wahlkreisid
     where se.anzahlstimmen = mwe.max and sz.anzahlstimmen = mwz.max
 );
+
+create or replace view Output_Wahlkreissieger as(
+    select wk.wahlkreisnummer, wk.name Wahlkreis, p1.name SiegerErststimmen, p2.name SiegerZweitstimmen
+    from Wahlkreissieger ws join wahlkreis wk on ws.wahlkreisid = wk.wahlkreisid
+                            join partei p1 on ws.siegererststimmen = p1.parteiid
+                            join partei p2 on ws.siegerzweitstimmen = p2.parteiid
+);
