@@ -21,11 +21,17 @@ create table Wahlkreis (
     BundeslandID integer references Bundesland (BundeslandID),
     Wahlkreisnummer integer not null,
     Name varchar(100) not null,
-    Jahr integer not null
+    Jahr integer not null,
+    Wahlberechtigte integer not null
 );
 -- wahlkreis_jahr_idx wird nicht verwendet (werte für jahr zu häufig => seq scan)
 create index wahlkreis_jahr_idx on wahlkreis using hash (jahr);
 create index wahlkreis_bundeslandid_idx on wahlkreis using hash (bundeslandid);
+
+create table WkNachfolger (
+    WkNachfolgerID integer primary key references Wahlkreis (WahlkreisID),
+    WkVorgaengerID integer references Wahlkreis (WahlkreisID)
+);
 
 create table Partei (
     ParteiID serial primary key,
