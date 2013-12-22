@@ -5,3 +5,5 @@
 *.aux
 *.log
 *.out
+/Benchmark/nbproject/private/
+/Benchmark/build/
