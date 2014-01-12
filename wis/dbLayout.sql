@@ -99,3 +99,7 @@ create table SummeZweitstimmen (
 );
 create index summezweitstimmen_parteiid_idx on summezweitstimmen using hash (parteiid);
 create index summezweitstimmen_wahlkreisid_idx on summezweitstimmen using hash (wahlkreisid);
+
+create table Stimmschluessel (
+    Schluessel varchar(32) primary key
+);

@@ -97,3 +97,35 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function erzeugeStimmschluessel(anzahl int) returns setof Stimmschluessel as $$
+begin
+    create temp table TmpNeueStimmschluessel (
+        Schluessel varchar(32) primary key
+    );
+    for i in 1..anzahl loop
+        insert into TmpNeueStimmschluessel values (md5(to_char(current_timestamp, 'YYYY-MM-DD  HH24:MI:SS:US') || to_char(random(), '9.99999999999999999999')));
+    end loop;
+    insert into Stimmschluessel select * from TmpNeueStimmschluessel;
+    return query select * from TmpNeueStimmschluessel;
+end;
+$$ language plpgsql;
+
+create or replace function loescheTmpStimmschluessel() returns void as $$
+begin
+    drop table TmpNeueStimmschluessel;
+end;
+$$ language plpgsql;
+
+create or replace function gibStimmeAb(pWahlkreis int, pKandidat int, pPartei int, pSchluessel text) returns void as $$
+declare
+    anzahl int;
+begin
+    delete from Stimmschluessel where Schluessel = pSchluessel;
+    get diagnostics anzahl = row_count;
+    if anzahl <> 1 then
+        raise 'Invalid key given';
+    end if;
+    insert into Erststimme (KandidatID, WahlkreisID) values (pKandidat, pWahlkreis);
+    insert into Zweitstimme (ParteiID, WahlkreisID) values (pPartei, pWahlkreis);
+end;
+$$ language plpgsql;
