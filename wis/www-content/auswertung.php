@@ -4,7 +4,7 @@ require_once 'lib/chart.php';
 
 $db = new Database();
 
-$resultAufteilung = $db->getBundestagAufteilung();
+$resultAufteilung = $db->getBundestagAufteilung()->fetchAll();
 ?>
 <h1>Zusammensetzung des Bundestags</h1>
 <script type="text/javascript" src="js/Chart.js"></script>

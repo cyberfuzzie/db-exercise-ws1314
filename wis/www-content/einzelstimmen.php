@@ -17,7 +17,7 @@ foreach ($db->getWahlkreisListeEinzelstimmen() as $wk) {
 <?php
 if (isset($_GET['wk'])) {
     $wkid = $_GET['wk'];
-    $wkrow = $db->getWahlkreisInfoEinzelstimmen($wkid);
+    $wkrow = $db->getWahlkreisInfoEinzelstimmen($wkid)->fetch();
     $wkkandidat = $db->getWahlkreisDirektmandatEinzelstimmen($wkid);
 ?>
 <br />

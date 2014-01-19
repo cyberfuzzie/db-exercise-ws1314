@@ -11,7 +11,9 @@ $items = array(
                'wahlkreissieger' => array('Wahlkreissieger', 'wahlkreissieger.php', false),
                'ueberhangmandate' => array('Überhangmandate', 'ueberhangmandate.php', false),
                'knappstesieger' => array('Knappste Sieger', 'knappstesieger.php', false),
-               'einzelstimmberechnung' => array('Auswertung auf Einzelstimmbasis', 'einzelstimmen.php', true)
+               'einzelstimmberechnung' => array('Auswertung auf Einzelstimmbasis', 'einzelstimmen.php', true),
+               'wahl' => array('Stimmabgabe', 'wahl.php', true),
+               'pwgen' => array('OTP-Generator', 'pwgen.php', true)
          );
 
 $contentfile = "default.php";

@@ -6,37 +6,12 @@ $db = new Database();
 ?>
 <h1>Wahlkreisauswertung</h1>
 
-<p>Bundesland</p>
-<ul>
 <?php
-foreach ($db->getBundeslandListe() as $bl) {
-    print "<li><a href=\"?page={$thisPage}&bl={$bl['id']}\">" . htmlentities("{$bl['name']}") . "</a></li>\n";
-}
-?>
-</ul>
-<?php
-if (isset($_GET['bl'])) {
-    $blid = $_GET['bl'];
-?>
-<br />
-<br />
-<p>Wahlkreis</p>
-<ul>
-<?php
-foreach ($db->getWahlkreisListe($blid) as $wk) {
-    print "<li><a href=\"?page={$thisPage}&bl={$blid}&wk={$wk['id']}\">" . htmlentities("{$wk['nummer']}: {$wk['name']}") . "</a></li>\n";
-}
-?>
-</ul>
-<?php
-}
 if (isset($_GET['wk'])) {
     $wkid = $_GET['wk'];
-    $wkrow = $db->getWahlkreisInfo($wkid);
-    $wkkandidat = $db->getWahlkreisDirektmandat($wkid);
+    $wkrow = $db->getWahlkreisInfo($wkid)->fetch();
+    $wkkandidat = $db->getWahlkreisDirektmandat($wkid)->fetch();
 ?>
-<br />
-<br />
 <h3>Wahlkreis <?php print "{$wkrow['nummer']}: {$wkrow['name']}" ?></h3>
 <p>Wahlbeteiligung: <?php print round($wkrow['wahlbeteiligung'],2) ?>%</p>
 <p>Gew&auml;hlter Direktkandidat: <?php print htmlentities("{$wkkandidat['kandidat']} ({$wkkandidat['partei']})") ?></p>
@@ -66,5 +41,29 @@ foreach ($resultWkEntwicklung as $partei) {
 </table>
 <?php
 }
+} else if (isset($_GET['bl'])) {
+    $blid = $_GET['bl'];
+?>
+<p>Wahlkreis</p>
+<ul>
+<?php
+print "<li><a href=\"?page={$thisPage}\">zur&uuml;ck zu Bundesl&auml;ndern</a></li>\n";
+foreach ($db->getWahlkreisListe($blid) as $wk) {
+    print "<li><a href=\"?page={$thisPage}&bl={$blid}&wk={$wk['id']}\">" . htmlentities("{$wk['nummer']}: {$wk['name']}") . "</a></li>\n";
+}
+?>
+</ul>
+<?php
+} else {
+?>
+<p>Bundesland</p>
+<ul>
+<?php
+foreach ($db->getBundeslandListe() as $bl) {
+    print "<li><a href=\"?page={$thisPage}&bl={$bl['id']}\">" . htmlentities("{$bl['name']}") . "</a></li>\n";
+}
+?>
+</ul>
+<?php
 }
 ?>
