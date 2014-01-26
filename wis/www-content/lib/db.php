@@ -99,6 +99,10 @@ class Database {
                                  array(':pid' => $pid));
     }
     
+    function getKnappsteWahlkreise() {
+        return $this->db->query('SELECT kw.partei,kw.kandidat,kw.wahlkreisnummer,kw.wahlkreis,kw.abstand FROM Output_KnappsteWahlkreise kw ORDER BY kw.partei ASC, ABS(kw.abstand) ASC');
+    }
+    
     function getKandidatenListe($wkid) {
         return $this->executeSQL('SELECT k.name kandidat,k.kandidatid id,p.name partei FROM kandidat k INNER JOIN partei p ON k.parteiid = p.parteiid INNER JOIN direktkandidat dk ON k.kandidatid = dk.kandidatid WHERE dk.wahlkreisid = :wkid',
                                  array(':wkid' => $wkid));
