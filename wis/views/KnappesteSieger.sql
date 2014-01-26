@@ -4,6 +4,8 @@ create or replace view KnappesteSieger as(
         from wahlkreis
         where jahr = 2013
     ),
+    /*Zuerst werden die Erst- und Zweitplatzierten Parteien pro Wahlkreis nach Zweitstimmen
+      bestimmen. Und daraus der Erstplatzierte mit Vorsprung bestimmen*/
     ersterProWahlkreis as(
         select wahlkreisid, max(anzahlstimmen) erster
         from summeerststimmen
@@ -24,12 +26,15 @@ create or replace view KnappesteSieger as(
                                         and se.wahlkreisid = f.wahlkreisid
                                   join kandidat k on se.kandidatid = k.kandidatid
     )
+    /*Danach werden noch die 10 Wahlkreise für jede Partei mit dem geringsten Vorsprung
+      bestimmt*/
     select wahlkreisid,parteiid,kandidatid, vorsprung
     from (select row_number() over (partition by parteiid order by vorsprung) as number, emv.*
           from ersterMitVorsprung emv) x
     where x.number <= 10
 );
 
+/*Output-View*/
 create or replace view Output_KnappesteSieger as(
     select p.name Partei, k.name Kandidat, wk.wahlkreisnummer, wk.jahr, ks.vorsprung,wk.name Wahlkreis
     from KnappesteSieger ks join wahlkreis wk on ks.wahlkreisid = wk.wahlkreisid
