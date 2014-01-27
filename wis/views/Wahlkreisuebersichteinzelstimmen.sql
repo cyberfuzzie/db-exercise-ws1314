@@ -1,3 +1,6 @@
+/*Unterschied zur Wahlkreisübersicht auf aggregierten Stimmen:
+  werte für Stimmsummen kommen aus der View summe(erst|zweit)stimmenlive*/
+
 --1
 create or replace view WahlbeteiligungEinzelstimmen as(
     with erststimmenProWahlkreis as(
