@@ -17,11 +17,11 @@ class Database {
     }
     
     function getBundestagAufteilung() {
-        return $this->db->query('SELECT spb.sitze sitze, p.name partei FROM sitzeParteienBundesweit spb INNER JOIN partei p ON spb.parteiid = p.parteiid ORDER BY p.name');
+        return $this->db->query('SELECT sitze,partei FROM Output_SitzeParteienBundesweit ORDER BY partei');
     }
     
     function getBundestagMitglieder() {
-        return $this->db->query('SELECT Kandidat.name kandidat, Partei.name partei FROM MdBs INNER JOIN Kandidat ON MdBs.kandidatid = kandidat.kandidatid INNER JOIN Partei on MdBs.parteiid = Partei.parteiid ORDER BY Partei.name');
+        return $this->db->query('SELECT kandidat,partei FROM Output_MdBs ORDER BY partei,kandidat');
     }
     
     function getBundeslandListe() {
@@ -42,12 +42,12 @@ class Database {
     }
     
     function getWahlkreisInfo($wkid) {
-        return $this->executeSQL('SELECT wk.wahlkreisnummer nummer,wk.name,wb.wahlbeteiligung FROM wahlkreis wk INNER JOIN Wahlbeteiligung wb ON wb.wahlkreisid = wk.wahlkreisid WHERE wk.wahlkreisid = :wkid',
+        return $this->executeSQL('SELECT wahlkreisnummer nummer,wahlkreis "name",wahlbeteiligung FROM Output_Wahlbeteiligung WHERE wahlkreisid = :wkid',
                                  array(':wkid' => $wkid));
     }
     
     function getWahlkreisInfoEinzelstimmen($wkid) {
-        return $this->executeSQL('SELECT wk.wahlkreisnummer nummer,wk.name,wb.wahlbeteiligung FROM wahlkreis wk INNER JOIN WahlbeteiligungEinzelstimmen wb ON wb.wahlkreisid = wk.wahlkreisid WHERE wk.wahlkreisid = :wkid',
+        return $this->executeSQL('SELECT wahlkreisnummer nummer,wahlkreis "name",wahlbeteiligung FROM Output_WahlbeteiligungEinzelstimmen WHERE wahlkreisid = :wkid',
                                  array(':wkid' => $wkid));
     }
     
@@ -62,27 +62,27 @@ class Database {
     }
     
     function getWahlkreisStimmverteilung($wkid) {
-        return $this->executeSQL('SELECT p.name partei,pasp.summe,pasp.prozent FROM ProzentualeAbsoluteStimmenPartei pasp INNER JOIN Partei p on pasp.parteiid = p.parteiid WHERE pasp.wahlkreisid = :wkid ORDER BY pasp.summe DESC',
+        return $this->executeSQL('SELECT partei,summe,prozent FROM Output_ProzentualeAbsoluteStimmenPartei WHERE wahlkreisid = :wkid ORDER BY summe DESC',
                                  array(':wkid' => $wkid));
     }
     
     function getWahlkreisStimmverteilungEinzelstimmen($wkid) {
-        return $this->executeSQL('SELECT p.name partei,pasp.summe,pasp.prozent FROM ProzentualeAbsoluteStimmenParteiEinzelstimmen pasp INNER JOIN Partei p on pasp.parteiid = p.parteiid WHERE pasp.wahlkreisid = :wkid ORDER BY pasp.summe DESC',
+        return $this->executeSQL('SELECT partei,summe,prozent FROM Output_ProzentualeAbsoluteStimmenParteiEinzelstimmen WHERE wahlkreisid = :wkid ORDER BY summe DESC',
                                  array(':wkid' => $wkid));
     }
     
     function getWahlkreisEntwicklung($wkid) {
-        return $this->executeSQL('SELECT p.name partei,es.summe13,es.summe09,es.differenz FROM EntwicklungStimmen es INNER JOIN Partei p on es.parteiid = p.parteiid WHERE es.wahlkreisid = :wkid ORDER BY es.summe13 DESC',
+        return $this->executeSQL('SELECT partei,summe13,summe09,differenz FROM Output_EntwicklungStimmen WHERE wahlkreisid = :wkid ORDER BY summe13 DESC',
                                  array(':wkid' => $wkid));
     }
     
     function getWahlkreisEntwicklungEinzelstimmen($wkid) {
-        return $this->executeSQL('SELECT p.name partei,es.summe13,es.summe09,es.differenz FROM EntwicklungStimmenEinzelstimmen es INNER JOIN Partei p on es.parteiid = p.parteiid WHERE es.wahlkreisid = :wkid ORDER BY es.summe13 DESC',
+        return $this->executeSQL('SELECT partei,summe13,summe09,differenz FROM Output_EntwicklungStimmenEinzelstimmen WHERE wahlkreisid = :wkid ORDER BY summe13 DESC',
                                  array(':wkid' => $wkid));
     }
     
     function getWahlkreisSieger() {
-        return $this->db->query("SELECT wk.wahlkreisnummer nummer,wk.name wahlkreis,p1.name siegererststimmen,p2.name siegerzweitstimmen FROM Wahlkreissieger wks INNER JOIN Wahlkreis wk ON wks.wahlkreisid = wk.wahlkreisid INNER JOIN Partei p1 ON wks.siegererststimmen = p1.parteiid INNER JOIN Partei p2 ON wks.siegerzweitstimmen = p2.parteiid WHERE wk.jahr = 2013 ORDER BY wk.wahlkreisnummer");
+        return $this->db->query("SELECT nummer,wahlkreis,siegererststimmen,siegerzweitstimmen FROM Output_Wahlkreissieger WHERE jahr = 2013 ORDER BY nummer");
     }
     
     function getParteiListe() {
@@ -100,7 +100,7 @@ class Database {
     }
     
     function getKnappsteWahlkreise() {
-        return $this->db->query('SELECT kw.partei,kw.kandidat,kw.wahlkreisnummer,kw.wahlkreis,kw.abstand FROM Output_KnappsteWahlkreise kw ORDER BY kw.partei ASC, ABS(kw.abstand) ASC');
+        return $this->db->query('SELECT partei,kandidat,wahlkreisnummer,wahlkreis,abstand FROM Output_KnappsteWahlkreise ORDER BY partei ASC, ABS(abstand) ASC');
     }
     
     function getKandidatenListe($wkid) {

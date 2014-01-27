@@ -246,3 +246,20 @@ create or replace view MdBs as (
     inner join wahlkreis w
       on dm.wahlkreisid = w.wahlkreisid
 );
+
+
+-- Views zur Ausgabe
+create or replace view Output_SitzeParteienBundesweit as (
+  select spb.sitze sitze, p.name partei
+    from sitzeParteienBundesweit spb
+      inner join partei p on spb.parteiid = p.parteiid
+);
+
+create or replace view Output_MdBs as (
+  select Kandidat.name kandidat, Partei.name partei
+    from MdBs
+      inner join Kandidat
+        on MdBs.kandidatid = kandidat.kandidatid
+      inner join Partei
+        on MdBs.parteiid = Partei.parteiid
+);
