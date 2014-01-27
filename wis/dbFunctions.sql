@@ -27,6 +27,8 @@ create or replace function erzeugeErststimmen() returns void as $$
 declare
   stimmsumme record;
 begin
+  drop index erststimme_kandidatid_idx;
+  drop index erststimme_wahlkreisid_idx;
   alter table erststimme
     drop constraint erststimme_kandidatid_fkey,
     drop constraint erststimme_wahlkreisid_fkey;
@@ -36,6 +38,8 @@ begin
   alter table erststimme
     add constraint erststimme_kandidatid_fkey foreign key (kandidatid) references Kandidat (KandidatID),
     add constraint erststimme_wahlkreisid_fkey foreign key (wahlkreisid) references Wahlkreis (WahlkreisID);
+  create index erststimme_kandidatid_idx on erststimme using hash (kandidatid);
+  create index erststimme_wahlkreisid_idx on erststimme using hash (wahlkreisid);
 end;
 $$ language plpgsql;
 
@@ -69,6 +73,8 @@ create or replace function erzeugeZweitstimmen() returns void as $$
 declare
   stimmsumme record;
 begin
+  drop index zweitstimme_parteiid_idx;
+  drop index zweitstimme_wahlkreisid_idx;
   alter table zweitstimme
     drop constraint zweitstimme_parteiid_fkey,
     drop constraint zweitstimme_wahlkreisid_fkey;
@@ -78,6 +84,8 @@ begin
   alter table zweitstimme
     add constraint zweitstimme_parteiid_fkey foreign key (parteiid) references Partei (ParteiID),
     add constraint zweitstimme_wahlkreisid_fkey foreign key (wahlkreisid) references Wahlkreis (WahlkreisID);
+  create index zweitstimme_parteiid_idx on zweitstimme using hash (parteiid);
+  create index zweitstimme_wahlkreisid_idx on zweitstimme using hash (wahlkreisid);
 end;
 $$ language plpgsql;
 
