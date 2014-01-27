@@ -1,6 +1,3 @@
--- überprüfen, wo btree index verbesserung bringt (sortieren im query plan!)
--- unnötige (nicht verwendete) indexe entfernen
-
 create table Bundesland (
     BundeslandID serial primary key,
     Name varchar(30) not null
@@ -12,9 +9,6 @@ create table Einwohnerzahl (
     Anzahl integer not null,
     Jahr integer not null
 );
--- indexes necessary? only few rows in table
--- index on BundeslandID: btree / hash?
--- index on Jahr: hash?
 
 create table Wahlkreis (
     WahlkreisID serial primary key,
